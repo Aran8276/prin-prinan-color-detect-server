@@ -11,8 +11,15 @@ import shutil
 import platform
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
+from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(
+    app,
+    origins=["http://localhost:3939"],
+    supports_credentials=True
+)
 
 # --- Configuration ---
 UPLOAD_FOLDER = tempfile.gettempdir()

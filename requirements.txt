@@ -3,3 +3,4 @@ numpy
 opencv-python-headless
 PyMuPDF
 requests
+flask-cors

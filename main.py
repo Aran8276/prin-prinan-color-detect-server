@@ -25,7 +25,7 @@ CORS(
 UPLOAD_FOLDER = tempfile.gettempdir()
 ALLOWED_EXTENSIONS_DOC = {'pdf', 'docx', 'doc'}
 ALLOWED_EXTENSIONS_IMG = {'jpg', 'jpeg', 'png'}
-PRICING_API_URL = "http://localhost:8000/api/config"
+PRICING_API_URL = "http://localhost:8000/api/config/pricing"
 
 # Saturation Threshold: 0-255. 
 # Pixels with saturation < 20 are considered gray/black/white.

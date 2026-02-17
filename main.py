@@ -55,8 +55,7 @@ def fetch_pricing_config():
     }
     
     try:
-        # Timeout set to 2 seconds to prevent hanging
-        response = requests.get(PRICING_API_URL, timeout=2)
+        response = requests.get(PRICING_API_URL, timeout=5)
         if response.status_code == 200:
             data = response.json()
             if data.get('success') and 'data' in data and 'prices' in data['data']:
@@ -162,6 +161,7 @@ def process_file_logic(filepath, filename, price_config):
         "type": file_type,
         "total_pages": 0,  # Initialize
         "total_price": 0,
+        "total_price_bnw": 0,
         "colors": []
     }
     
@@ -192,10 +192,12 @@ def process_file_logic(filepath, filename, price_config):
             category, price = calculate_price_for_percentage(percentage, price_config)
             
             result_entry["total_price"] = price
+            result_entry["total_price_bnw"] = price_config["bnw"]
             result_entry["colors"].append({
                 "page": 1,
                 "color": category,
                 "price": price,
+                "price_bnw": price_config["bnw"],
                 "percentage": percentage
             })
             
@@ -207,6 +209,7 @@ def process_file_logic(filepath, filename, price_config):
             result_entry["total_pages"] = doc.page_count
             
             total_doc_price = 0
+            total_doc_price_bnw = 0
             
             for page_num, page in enumerate(doc):
                 # Render page to pixmap
@@ -224,15 +227,18 @@ def process_file_logic(filepath, filename, price_config):
                 category, price = calculate_price_for_percentage(percentage, price_config)
                 
                 total_doc_price += price
+                total_doc_price_bnw += price_config["bnw"]
                 
                 result_entry["colors"].append({
                     "page": page_num + 1,
                     "color": category,
                     "price": price,
+                    "price_bnw": price_config["bnw"],
                     "percentage": percentage
                 })
             
             result_entry["total_price"] = total_doc_price
+            result_entry["total_price_bnw"] = total_doc_price_bnw
             doc.close()
 
     except Exception as e:

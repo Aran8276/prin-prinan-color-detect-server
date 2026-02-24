@@ -17,7 +17,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(
     app,
-    origins=["http://localhost:3939"],
+    origins=["http://localhost:8001"],
     supports_credentials=True
 )
 
@@ -252,6 +252,12 @@ def process_file_logic(filepath, filename, price_config):
                 pass
 
     return result_entry
+
+@app.route('/status', methods=['get'])
+def status():
+    return jsonify({
+        "success": "true",
+    })
 
 @app.route('/detect', methods=['POST'])
 def detect_colors():
